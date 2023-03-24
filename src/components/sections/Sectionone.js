@@ -80,7 +80,7 @@ const Slider = () => {
   return (
     <div className="  md:px-20 grid md:grid-cols-2">
       <div className=" images">
-        <Link href={"/"}>
+        <Link href={"/posts"}>
           <Image
             src={"/assets/images/img1.jpg"}
             alt=""
