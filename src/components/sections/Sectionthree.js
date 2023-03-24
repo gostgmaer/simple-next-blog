@@ -77,14 +77,14 @@ const Post = () => {
             className=" text-3xl md:text-4xl font-bold text-gray-800 hover:text-gray-600"
           >
             You have been logged out due to inactivity.
-          </Link>
+          </Link> </div>
           <p className=" text-gray-500 py-0">
             {" "}
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
             quidem temporibus doloribus in at ipsum animi deserunt sequi
           </p>
           <Auther />
-        </div>
+       
       </div>
     </div>
   );
