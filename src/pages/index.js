@@ -13,9 +13,9 @@ export default function Home() {
   return (
     <Format>
       <Sectionone />
-      <Sectiontwo data={data} />
+      <Sectiontwo data={data} isLoading={isLoading} isError={isError} />
       <Sectionthree />
-      <Sectionfour data={data} />
+      <Sectionfour data={data} isLoading={isLoading} isError={isError} />
     </Format>
   );
 }

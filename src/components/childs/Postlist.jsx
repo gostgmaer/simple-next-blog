@@ -5,7 +5,7 @@ const PostItem = ({data,cate}) => {
   return (
     <div className="flex gap-5">
     <div className="image flex flex-col justify-start">
-      <Link href={"/"}>
+      <Link href={`/post/${data.id}`}>
         <Image
           src={data?.img}
           alt=""
@@ -29,7 +29,7 @@ const PostItem = ({data,cate}) => {
       </div>
       <div className="title">
         <Link
-          href={"/"}
+          href={`/post/${data.id}`}
           className=" text-xl font-bold text-gray-800 hover:text-gray-600"
         >
           {data?.title}

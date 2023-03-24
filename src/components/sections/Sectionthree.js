@@ -6,9 +6,17 @@ import "swiper/css/pagination";
 import Auther from "../childs/Auther";
 import Link from "next/link";
 import { useFetcher } from "@/lib/fetcher";
+import Loading from "../loaderscreen/Loading";
+import Error from "../error/Error";
 const Sectionthree = () => {
 
   const { data, isError, isLoading } = useFetcher("popular");
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return <Error/>;
+  }
   return (
     <section className="py-16 container mx-auto md:px-20">
       <h2 className=" font-bold text-4xl py-12 text-center">Most Popular</h2>
@@ -41,7 +49,7 @@ const Post = ({data}) => {
   return (
     <div className="item">
       <div className="images">
-        <Link href={"/"}>
+        <Link href={`/post/${data.id}`}>
           <Image
             src={data.img}
             alt=""
@@ -65,7 +73,7 @@ const Post = ({data}) => {
         </div>
         <div className="title">
           <Link
-            href={"/"}
+            href={`/post/${data.id}`}
             className=" text-3xl md:text-4xl font-bold text-gray-800 hover:text-gray-600"
           >
            {data.title}

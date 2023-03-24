@@ -8,7 +8,9 @@ import SwiperCode, { Autoplay, Pagination, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import Error from "../error/Error";
 import { useFetcher } from "@/lib/fetcher";
+import Loading from "../loaderscreen/Loading";
 const Sectionone = () => {
   const bg = {
     background: 'url("/assets/images/banner.png")',
@@ -18,7 +20,12 @@ const Sectionone = () => {
 
   SwiperCode.use([Autoplay]);
   const { data, isError, isLoading } = useFetcher("trending");
-
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return <Error/>;
+  }
   return (
     <section className="py-10" style={bg}>
       <div className="container mx-auto md:px-20">
@@ -52,7 +59,7 @@ const Slider = ({ data }) => {
   return (
     <div className="  md:px-20 grid md:grid-cols-2">
       <div className=" images">
-        <Link href={"/posts"}>
+        <Link href={`/post/${data.id}`}>
           <Image
             src={data.img}
             alt=""
@@ -76,7 +83,7 @@ const Slider = ({ data }) => {
         </div>
         <div className="title">
           <Link
-            href={"/"}
+            href={`/post/${data.id}`}
             className=" text-2xl md:text-5xl font-bold text-gray-800 hover:text-gray-600"
           >
             {data.title}

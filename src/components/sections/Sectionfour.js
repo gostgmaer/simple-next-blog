@@ -2,7 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import Auther from "../childs/Auther";
 import PostItem from "../childs/Postlist";
-const Sectionfour = ({ data }) => {
+import Error from "../error/Error";
+import Loading from "../loaderscreen/Loading";
+const Sectionfour = ({ data, isLoading, isError }) => {
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return <Error />;
+  }
   return (
     <section className="py-16 container mx-auto md:px-20">
       <div className="grid lg:grid-cols-2 gap-10">
