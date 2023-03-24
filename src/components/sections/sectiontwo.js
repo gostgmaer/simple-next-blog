@@ -1,18 +1,29 @@
+import { useFetcher } from "@/lib/fetcher";
+import { getPost } from "@/lib/helper";
 import Image from "next/image";
 import Link from "next/link";
 import Auther from "../childs/Auther";
+import Error from "../error/Error";
+import Loading from "../loaderscreen/Loading";
 
-const Sectiontwo = () => {
+const Sectiontwo = ({ data, isLoading, isError }) => {
+  // getPost('post',69).then(res=>console.log(res))
+  // const { data, isError, isLoading } = useFetcher("post");
+
+  // console.log(getPost('post'));
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return <Error />;
+  }
   return (
     <section className="py-16 container mx-auto md:px-20">
       <h2 className=" font-bold text-4xl py-12 text-center">Latest Posts</h2>
       <div className=" grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post /> 
-        <Post />
+        {data?.map((item) => (
+          <Post key={item.id} data={item} />
+        ))}
       </div>
     </section>
   );
@@ -20,13 +31,13 @@ const Sectiontwo = () => {
 
 export default Sectiontwo;
 
-const Post = () => {
+const Post = ({ data }) => {
   return (
     <div className="item">
       <div className="images">
-        <Link href={"/"}>
+        <Link href={`/post/${data.id}`}>
           <Image
-            src={"/assets/images/img1.jpg"}
+            src={data.img}
             alt=""
             className="rounded"
             width={"600"}
@@ -36,29 +47,27 @@ const Post = () => {
       </div>
       <div className="info justify-center flex flex-col py-4">
         <div className="category">
-          <Link
-            className=" text-orange-600 hover:text-orange-800 "
-            href={"/cate"}
-          >
-            Business, Travel
-          </Link>
+          {
+            <Link
+              className=" text-orange-600 hover:text-orange-800 "
+              href={"/cate"}
+            >
+              {data.category}
+            </Link>
+          }
           <Link className=" text-grey-600 hover:text-grey-800" href={"/cate"}>
-            - March 18, 2023
+            - {data.published}
           </Link>
         </div>
         <div className="title">
           <Link
-            href={"/"}
+            href={`/post/${data.id}`}
             className=" text-xl font-bold text-gray-800 hover:text-gray-600"
           >
-            You have been logged out due to inactivity.
+            {data.title}
           </Link>
-          <p className=" text-gray-500 py-0">
-            {" "}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-            quidem temporibus doloribus in at ipsum animi deserunt sequi
-          </p>
-          <Auther />
+          <p className=" text-gray-500 py-0">{data.subtitle}</p>
+          <Auther user={data.author} />
         </div>
       </div>
     </div>

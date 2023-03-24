@@ -2,8 +2,16 @@ import { Facebook, GitHub, Twitter } from "@mui/icons-material";
 import NewsLetter from "../childs/NewsLetter";
 
 const Footer = () => {
+
+  const bg = {
+    background: 'url("/assets/images/footer.png")',
+    backgroundPosition: "right",
+    backgroundRepeat: "no-repeat",
+    
+  };
+
   return (
-    <footer className=" bg-gray-50 px-20">
+    <footer className=" bg-gray-50 px-20" style={bg}>
     <NewsLetter/>
       <div className="container mx-auto flex justify-center py-12">
         <div className="py-5">
