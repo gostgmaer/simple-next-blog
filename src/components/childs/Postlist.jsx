@@ -1,13 +1,13 @@
 import Link from "next/link"
 import Image from "next/image";
 import Auther from "./Auther";
-const PostItem = () => {
+const PostItem = ({data,cate}) => {
   return (
     <div className="flex gap-5">
     <div className="image flex flex-col justify-start">
       <Link href={"/"}>
         <Image
-          src={"/assets/images/img1.jpg"}
+          src={data?.img}
           alt=""
           className="rounded"
           width={"300"}
@@ -17,14 +17,14 @@ const PostItem = () => {
     </div>
     <div className="info flex justify-center flex-col">
       <div className="category">
-        <Link
+      {cate ?<></> : <Link
           className=" text-orange-600 hover:text-orange-800 "
           href={"/cate"}
         >
-          Business, Travel
-        </Link>
+          {data?.category}
+        </Link>}
         <Link className=" text-grey-600 hover:text-grey-800" href={"/cate"}>
-          - March 18, 2023
+          - {data?.published}
         </Link>
       </div>
       <div className="title">
@@ -32,10 +32,10 @@ const PostItem = () => {
           href={"/"}
           className=" text-xl font-bold text-gray-800 hover:text-gray-600"
         >
-          You have been logged out due to inactivity.
+          {data?.title}
         </Link>
       </div>
-      <Auther />
+      <Auther user={data.author} />
     </div>
   </div>
   )

@@ -8,6 +8,7 @@ import SwiperCode, { Autoplay, Pagination, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { useFetcher } from "@/lib/fetcher";
 const Sectionone = () => {
   const bg = {
     background: 'url("/assets/images/banner.png")',
@@ -16,9 +17,10 @@ const Sectionone = () => {
   };
 
   SwiperCode.use([Autoplay]);
+  const { data, isError, isLoading } = useFetcher("trending");
 
   return (
-    <section className="py-16 " style={bg}>
+    <section className="py-10" style={bg}>
       <div className="container mx-auto md:px-20">
         <h2 className=" font-bold text-4xl pb-12 text-center">Trending</h2>
       </div>
@@ -33,42 +35,12 @@ const Sectionone = () => {
         navigation={true}
         modules={[Pagination, Navigation]}
       >
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider />
-        </SwiperSlide>
+        {data?.map((item) => (
+          <SwiperSlide key={item.id}>
+            {" "}
+            <Slider data={item} />{" "}
+          </SwiperSlide>
+        ))}
       </Swiper>
     </section>
   );
@@ -76,13 +48,13 @@ const Sectionone = () => {
 
 export default Sectionone;
 
-const Slider = () => {
+const Slider = ({ data }) => {
   return (
     <div className="  md:px-20 grid md:grid-cols-2">
       <div className=" images">
         <Link href={"/posts"}>
           <Image
-            src={"/assets/images/img1.jpg"}
+            src={data.img}
             alt=""
             className=" rounded"
             width={"500"}
@@ -96,27 +68,21 @@ const Slider = () => {
             className=" text-orange-600 hover:text-orange-800 "
             href={"/cate"}
           >
-            Business, Travel
+            {data.category}
           </Link>
           <Link className=" text-grey-600 hover:text-grey-800" href={"/cate"}>
-            - March 18, 2023
+            - {data.published}
           </Link>
         </div>
         <div className="title">
           <Link
             href={"/"}
-            className=" text-3xl md:text-6xl font-bold text-gray-800 hover:text-gray-600"
+            className=" text-2xl md:text-5xl font-bold text-gray-800 hover:text-gray-600"
           >
-            You have been logged out due to inactivity.
+            {data.title}
           </Link>
-          <p className=" text-gray-500 py-0">
-            {" "}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-            quidem temporibus doloribus in at ipsum animi deserunt sequi fugiat
-            minima aperiam saepe sapiente aliquam fuga magni, optio, ea
-            voluptate aut!
-          </p>
-          <Auther />
+          <p className=" text-gray-500 py-0">{data.subtitle}</p>
+          <Auther user={data.author} />
         </div>
       </div>
     </div>

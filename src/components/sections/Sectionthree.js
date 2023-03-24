@@ -5,7 +5,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Auther from "../childs/Auther";
 import Link from "next/link";
+import { useFetcher } from "@/lib/fetcher";
 const Sectionthree = () => {
+
+  const { data, isError, isLoading } = useFetcher("popular");
   return (
     <section className="py-16 container mx-auto md:px-20">
       <h2 className=" font-bold text-4xl py-12 text-center">Most Popular</h2>
@@ -20,24 +23,13 @@ const Sectionthree = () => {
        
         modules={[Pagination]}
       >
-        <SwiperSlide>
-          <Post />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Post />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Post />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Post />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Post />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Post />
-        </SwiperSlide>
+       {data?.map((item) => (
+          <SwiperSlide key={item.id}>
+        
+            <Post data={item} />{" "}
+          </SwiperSlide>
+        ))}
+        
       </Swiper>
     </section>
   );
@@ -45,13 +37,13 @@ const Sectionthree = () => {
 
 export default Sectionthree;
 
-const Post = () => {
+const Post = ({data}) => {
   return (
     <div className="item">
       <div className="images">
         <Link href={"/"}>
           <Image
-            src={"/assets/images/img1.jpg"}
+            src={data.img}
             alt=""
             className=""
             width={"600"}
@@ -65,10 +57,10 @@ const Post = () => {
             className=" text-orange-600 hover:text-orange-800 "
             href={"/cate"}
           >
-            Business, Travel
+             {data.category}
           </Link>
           <Link className=" text-grey-600 hover:text-grey-800" href={"/cate"}>
-            - March 18, 2023
+            - {data.published}
           </Link>
         </div>
         <div className="title">
@@ -76,14 +68,12 @@ const Post = () => {
             href={"/"}
             className=" text-3xl md:text-4xl font-bold text-gray-800 hover:text-gray-600"
           >
-            You have been logged out due to inactivity.
+           {data.title}
           </Link> </div>
           <p className=" text-gray-500 py-0">
-            {" "}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-            quidem temporibus doloribus in at ipsum animi deserunt sequi
+          {data.subtitle}
           </p>
-          <Auther />
+          <Auther user={data.author} />
        
       </div>
     </div>
