@@ -18,8 +18,8 @@ const Sectionone = () => {
   SwiperCode.use([Autoplay]);
 
   return (
-    <section className="py-16 px-12" style={bg}>
-      <div className=" container mx-auto md:px:20">
+    <section className="py-16 " style={bg}>
+      <div className="container mx-auto md:px-20">
         <h2 className=" font-bold text-4xl pb-12 text-center">Trending</h2>
       </div>
       <Swiper
@@ -78,14 +78,15 @@ export default Sectionone;
 
 const Slider = () => {
   return (
-    <div className=" grid md:grid-cols-2">
+    <div className="  md:px-20 grid md:grid-cols-2">
       <div className=" images">
         <Link href={"/"}>
           <Image
             src={"/assets/images/img1.jpg"}
             alt=""
-            width={"600"}
-            height={"600"}
+            className=" rounded"
+            width={"500"}
+            height={"320"}
           />
         </Link>
       </div>
