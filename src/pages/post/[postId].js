@@ -6,17 +6,30 @@ import Layout from "@/layout";
 import { useFetcher } from "@/lib/fetcher";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { SWRConfig } from "swr";
+import { getPost } from "../../lib/helper";
 
-const Post = () => {
+export default function Post({ fallback }) {
   const route = useRouter();
   const { data, isError, isLoading } = useFetcher(`post/${route.query.postId}`);
-
   if (isLoading) {
     return <Loading />;
   }
   if (isError) {
     return <Error />;
   }
+  if (route.isFallback) {
+    return <Loading />;
+  }
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Article data={data} />
+    </SWRConfig>
+  );
+}
+
+const Article = ({ data }) => {
+
 
   return (
     <Layout>
@@ -25,15 +38,11 @@ const Post = () => {
           <Auther user={data?.author} />
         </div>
         <div className="post py-10">
-          <h1 className=" font-bold text-4xl text-center">
-           {data.title}
-          </h1>
-          <p className=" text-grey-500 text-center text-xl">
-           {data.subtitle}
-          </p>
+          <h1 className=" font-bold text-4xl text-center">{data.title}</h1>
+          <p className=" text-grey-500 text-center text-xl">{data.subtitle}</p>
           <div className="py-10">
             <Image
-              src= {data.img}
+              src={data.img}
               alt=""
               className="rounded"
               width={"900"}
@@ -52,4 +61,26 @@ const Post = () => {
   );
 };
 
-export default Post;
+export async function getStaticProps(ctx) {
+  const posts = await getPost("post", ctx.params.postId);
+
+  return {
+    props: {
+      fallback: {
+        "/api/post": posts,
+      },
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const posts = await getPost("post");
+  const paths = posts.map((item) => {
+    return { params: { postId: item.id.toString() } };
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+}

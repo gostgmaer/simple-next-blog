@@ -9,35 +9,32 @@ import { useFetcher } from "@/lib/fetcher";
 import Loading from "../loaderscreen/Loading";
 import Error from "../error/Error";
 const Sectionthree = () => {
-
   const { data, isError, isLoading } = useFetcher("popular");
   if (isLoading) {
     return <Loading />;
   }
   if (isError) {
-    return <Error/>;
+    return <Error />;
   }
   return (
     <section className="py-16 container mx-auto md:px-20">
       <h2 className=" font-bold text-4xl py-12 text-center">Most Popular</h2>
       <Swiper
         spaceBetween={50}
-        slidesPerView={2}
+       
         autoplay={{ delay: 2000 }}
+        breakpoints={{640:{slidesPerView:2,spaceBetween:30}}}
         loop={true}
         pagination={{
           clickable: true,
         }}
-       
         modules={[Pagination]}
       >
-       {data?.map((item) => (
+        {data?.map((item) => (
           <SwiperSlide key={item.id}>
-        
             <Post data={item} />{" "}
           </SwiperSlide>
         ))}
-        
       </Swiper>
     </section>
   );
@@ -45,7 +42,7 @@ const Sectionthree = () => {
 
 export default Sectionthree;
 
-const Post = ({data}) => {
+const Post = ({ data }) => {
   return (
     <div className="item">
       <div className="images">
@@ -65,7 +62,7 @@ const Post = ({data}) => {
             className=" text-orange-600 hover:text-orange-800 "
             href={"/cate"}
           >
-             {data.category}
+            {data.category}
           </Link>
           <Link className=" text-grey-600 hover:text-grey-800" href={"/cate"}>
             - {data.published}
@@ -76,13 +73,11 @@ const Post = ({data}) => {
             href={`/post/${data.id}`}
             className=" text-3xl md:text-4xl font-bold text-gray-800 hover:text-gray-600"
           >
-           {data.title}
-          </Link> </div>
-          <p className=" text-gray-500 py-0">
-          {data.subtitle}
-          </p>
-          <Auther user={data.author} />
-       
+            {data.title}
+          </Link>{" "}
+        </div>
+        <p className=" text-gray-500 py-0">{data.subtitle}</p>
+        <Auther user={data.author} />
       </div>
     </div>
   );
