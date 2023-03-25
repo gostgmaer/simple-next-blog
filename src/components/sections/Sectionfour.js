@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import Auther from "../childs/Auther";
-import PostItem from "../childs/Postlist";
+
 import Error from "../error/Error";
 import Loading from "../loaderscreen/Loading";
+import PostItem from "../childs/PostItem";
 const Sectionfour = ({ data, isLoading, isError }) => {
   if (isLoading) {
     return <Loading />;
@@ -17,7 +18,8 @@ const Sectionfour = ({ data, isLoading, isError }) => {
         <div className="item">
           <h2 className=" font-bold text-2xl py-12 text-center">Business</h2>
           <div className="flex flex-col gap-6">
-            {data?.filter((i) => i.category == "Business, Travel")
+            {data
+              ?.filter((i) => i.category == "Business, Travel")
               .map((post) => (
                 <PostItem cate key={post.id} data={post} />
               ))}
@@ -26,7 +28,8 @@ const Sectionfour = ({ data, isLoading, isError }) => {
         <div className="item">
           <h2 className=" font-bold text-2xl py-12 text-center">Travel</h2>
           <div className="flex flex-col gap-6">
-            {data?.filter((i) => i.category == "Business, Travel")
+            {data
+              ?.filter((i) => i.category == "Business, Travel")
               .map((post) => (
                 <PostItem cate key={post.id} data={post} />
               ))}
